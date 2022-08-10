@@ -10,7 +10,7 @@ pub enum AdminError {
     #[error("Not found")]
     NotFound,
     #[error("{0}")]
-    InternalServerError(String)
+    InternalServerError(String),
 }
 
 impl ResponseError for AdminError {

@@ -1,9 +1,9 @@
-use chrono::{DateTime, Utc};
-use serde::{Serialize, Deserialize};
-use sled::transaction::TransactionError;
 use crate::CONFIG;
-use spdlog::prelude::*;
 use anyhow::Result;
+use chrono::{DateTime, Utc};
+use serde::{Deserialize, Serialize};
+use sled::transaction::TransactionError;
+use spdlog::prelude::*;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Redirect {
@@ -41,7 +41,7 @@ impl Redirect {
 
     pub fn get_by_name(name: &str) -> Result<Option<Redirect>> {
         let db = CONFIG.get_db("redirects");
-        let key = format!("{}", name);
+        let key = name.to_string();
         let record = db.get(key.as_bytes());
         match record {
             Ok(Some(value)) => {
@@ -58,7 +58,7 @@ impl Redirect {
 
     pub fn get_visit_by_name(name: &str) -> Result<i64> {
         let db = CONFIG.get_db("analysis");
-        let key = format!("{}", name);
+        let key = name.to_string();
         let record = db.get(key.as_bytes());
         match record {
             Ok(Some(value)) => {
@@ -75,7 +75,7 @@ impl Redirect {
 
     pub fn save(&self) -> Result<()> {
         let db = CONFIG.get_db("redirects");
-        let key = format!("{}", self.name);
+        let key = self.name.to_string();
         let value = bincode::serialize(self).unwrap();
         match db.insert(key.as_bytes(), value) {
             Ok(_) => Ok(()),
@@ -88,18 +88,19 @@ impl Redirect {
 
     pub fn visit(&self) -> Result<()> {
         let db = CONFIG.get_db("analysis");
-        let key = format!("{}", self.name);
-        let result: Result<(), TransactionError<sled::transaction::UnabortableTransactionError>> = db.transaction(|db| {
-            let value = db.get(key.as_bytes())?;
-            if let Some(v) = value {
-                let mut count: i64 = bincode::deserialize(&v).unwrap();
-                count += 1;
-                db.insert(key.as_bytes(), bincode::serialize(&count).unwrap())?;
-            } else {
-                db.insert(key.as_bytes(), bincode::serialize(&1i64).unwrap())?;
-            }
-            Ok(())
-        });
+        let key = self.name.to_string();
+        let result: Result<(), TransactionError<sled::transaction::UnabortableTransactionError>> =
+            db.transaction(|db| {
+                let value = db.get(key.as_bytes())?;
+                if let Some(v) = value {
+                    let mut count: i64 = bincode::deserialize(&v).unwrap();
+                    count += 1;
+                    db.insert(key.as_bytes(), bincode::serialize(&count).unwrap())?;
+                } else {
+                    db.insert(key.as_bytes(), bincode::serialize(&1i64).unwrap())?;
+                }
+                Ok(())
+            });
         match result {
             Ok(_) => Ok(()),
             Err(e) => {
@@ -112,7 +113,7 @@ impl Redirect {
     pub fn delete(name: &str) -> Result<()> {
         let redirect_db = CONFIG.get_db("redirects");
         let analysis_db = CONFIG.get_db("analysis");
-        let key = format!("{}", name);
+        let key = name.to_string();
         redirect_db.remove(key.as_bytes())?;
         analysis_db.remove(key.as_bytes())?;
         Ok(())

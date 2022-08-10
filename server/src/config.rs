@@ -1,19 +1,22 @@
 use passwords::PasswordGenerator;
+use spdlog::prelude::*;
+use spdlog::sink::{RotatingFileSink, RotationPolicy};
 use std::env;
 use std::fs;
-use spdlog::prelude::*;
+use std::path::PathBuf;
+use std::sync::Arc;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Config {
     database: sled::Db,
-    log_path: String,
     manage_token: String,
     fallback_target: Option<String>,
+    pub logger: Arc<Logger>,
 }
 
 impl Config {
     pub fn env() -> Config {
-        let manage_token = env::var("TOKEN").unwrap_or(
+        let manage_token = env::var("TOKEN").unwrap_or_else(|_| {
             PasswordGenerator::new()
                 .length(32)
                 .numbers(true)
@@ -24,23 +27,40 @@ impl Config {
                 .exclude_similar_characters(true)
                 .strict(true)
                 .generate_one()
-                .unwrap(),
-        );
-        if env::var("TOKEN").is_err() {
-            info!("Generated manage token: {}", manage_token);
-        }
+                .unwrap()
+        });
 
-        let database: sled::Db = sled::open(env::var("DATABASE_PATH").unwrap_or("./database".to_string())).unwrap();
-        let log_path = env::var("LOG_PATH").unwrap_or("./logs".to_string());
+        let database: sled::Db =
+            sled::open(env::var("DATABASE_PATH").unwrap_or_else(|_| "./database".to_string()))
+                .unwrap();
+        let log_path = env::var("LOG_PATH").unwrap_or_else(|_| "./logs".to_string());
         let fallback_target = env::var("FALLBACK_TARGET").ok();
 
         fs::create_dir_all(&log_path).unwrap();
 
+        let visit_log_path = PathBuf::from(&log_path).join("visit.log");
+        let log_sink: Arc<RotatingFileSink> = Arc::new(
+            RotatingFileSink::new(
+                visit_log_path,
+                RotationPolicy::Daily { hour: 0, minute: 0 },
+                0,
+                false,
+            )
+            .unwrap(),
+        );
+        let logger: Arc<Logger> = Arc::new(
+            Logger::builder()
+                .sink(log_sink)
+                .flush_level_filter(LevelFilter::MoreSevereEqual(Level::Warn))
+                .build(),
+        );
+        logger.set_flush_period(Some(std::time::Duration::from_secs(10)));
+
         Config {
             database,
-            log_path,
             manage_token,
             fallback_target,
+            logger,
         }
     }
 
@@ -54,5 +74,9 @@ impl Config {
 
     pub fn get_fallback_target(&self) -> Option<String> {
         self.fallback_target.clone()
+    }
+
+    pub fn get_token(&self) -> String {
+        self.manage_token.clone()
     }
 }

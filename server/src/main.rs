@@ -1,16 +1,17 @@
+mod admin;
 mod config;
 mod redirect;
-mod admin;
 
+use crate::admin::route as admin_route;
+use futures::join;
 use once_cell::sync::Lazy;
 use poem::{
-    get, handler, listener::TcpListener, web::Path, Route, Server, error::NotFoundError, EndpointExt, Response, http::StatusCode
+    error::NotFoundError, get, handler, http::StatusCode, listener::TcpListener, web::Path,
+    EndpointExt, Response, Route, Server
 };
 use spdlog::prelude::*;
-use futures::join;
-use crate::admin::route as admin_route;
 
-static CONFIG: Lazy<config::Config> = Lazy::new(|| config::Config::env());
+static CONFIG: Lazy<config::Config> = Lazy::new(config::Config::env);
 
 #[handler]
 fn hello(Path(name): Path<String>) -> String {
@@ -19,6 +20,8 @@ fn hello(Path(name): Path<String>) -> String {
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
+    info!("Manage token: {}", CONFIG.get_token());
+
     let redirect_app = Route::new()
         .at("/:path", get(crate::redirect::redirect))
         .catch_error(|_: NotFoundError| async move {
@@ -36,6 +39,7 @@ async fn main() -> Result<(), std::io::Error> {
     let redirect_server = Server::new(TcpListener::bind("0.0.0.0:8080")).run(redirect_app);
     let admin_server = Server::new(TcpListener::bind("0.0.0.0:8081")).run(admin_route());
     let (redirect_res, admin_res) = join!(redirect_server, admin_server);
+
     if redirect_res.is_err() {
         error!("Redirect server error: {}", redirect_res.err().unwrap());
     }
