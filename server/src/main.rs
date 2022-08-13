@@ -7,7 +7,7 @@ use futures::join;
 use once_cell::sync::Lazy;
 use poem::{
     error::NotFoundError, get, handler, http::StatusCode, listener::TcpListener, web::Path,
-    EndpointExt, Response, Route, Server
+    EndpointExt, Response, Route, Server,
 };
 use spdlog::prelude::*;
 

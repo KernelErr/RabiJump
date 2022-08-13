@@ -1,17 +1,30 @@
 mod auth;
 mod error;
 
-use crate::{admin::error::AdminError, redirect::Redirect};
+use crate::{admin::error::AdminError, redirect::Redirect, CONFIG};
 use poem::{
-    get, handler, post,
+    endpoint::StaticFilesEndpoint,
+    get, handler,
+    http::Method,
+    middleware::{Cors, CorsEndpoint},
+    post,
     web::{Json, Path, Query},
     EndpointExt, Result, Route,
-    endpoint::StaticFilesEndpoint
 };
 use serde::Deserialize;
 use serde_json::json;
 
-pub fn route() -> Route {
+pub fn route() -> CorsEndpoint<Route> {
+    let cors = if let Some(allow_origin) = CONFIG.get_allow_origin() {
+        Cors::new()
+            .allow_method(Method::GET)
+            .allow_method(Method::POST)
+            .allow_origin(allow_origin)
+    } else {
+        Cors::new()
+            .allow_method(Method::GET)
+            .allow_method(Method::POST)
+    };
     Route::new()
         .at(
             "/api/redirect/:name",
@@ -20,10 +33,20 @@ pub fn route() -> Route {
                 .delete(delete_redirect)
                 .with(auth::TokenMiddleware),
         )
-        .at("/api/redirect/:name/count", get(get_redirect_count).with(auth::TokenMiddleware))
-        .at("/api/redirect;list", get(list_redirects).with(auth::TokenMiddleware))
-        .at("/api/redirect;search", get(search_redirects).with(auth::TokenMiddleware))
+        .at(
+            "/api/redirect/:name/count",
+            get(get_redirect_count).with(auth::TokenMiddleware),
+        )
+        .at(
+            "/api/redirect;list",
+            get(list_redirects).with(auth::TokenMiddleware),
+        )
+        .at(
+            "/api/redirect;search",
+            get(search_redirects).with(auth::TokenMiddleware),
+        )
         .nest("/", StaticFilesEndpoint::new("./static"))
+        .with(cors)
 }
 
 #[handler]

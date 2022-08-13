@@ -10,6 +10,7 @@ use std::sync::Arc;
 pub struct Config {
     database: sled::Db,
     manage_token: String,
+    allow_origin: Option<String>,
     fallback_target: Option<String>,
     pub logger: Arc<Logger>,
 }
@@ -59,6 +60,7 @@ impl Config {
         Config {
             database,
             manage_token,
+            allow_origin: env::var("ALLOW_ORIGIN").ok(),
             fallback_target,
             logger,
         }
@@ -66,6 +68,10 @@ impl Config {
 
     pub fn get_db(&self, tree: &str) -> sled::Tree {
         self.database.clone().open_tree(tree).unwrap()
+    }
+
+    pub fn get_allow_origin(&self) -> Option<String> {
+        self.allow_origin.clone()
     }
 
     // pub fn get_db_raw(&self) -> sled::Db {
