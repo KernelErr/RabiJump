@@ -27,7 +27,7 @@ export function axiosInit(axios: AxiosInstance, showError: (content: string, tit
         hideLoading();
         const errPrefix = "Error"
         console.log(error)
-        showError(error.response.data || 'Something wrong', errPrefix);
+        showError(error.response.data || error.code || 'Something wrong', errPrefix);
         return Promise.reject(error);
     }
 }

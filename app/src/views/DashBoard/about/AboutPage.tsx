@@ -44,7 +44,7 @@ function AboutPage() {
             <Version
                 name="RabiJump-Web"
                 version={__VERSION__}
-                link="https://github.com/KernelErr/RabiJump/app"
+                link="https://github.com/KernelErr/RabiJump/tree/main/app"
             />
         </>
     )

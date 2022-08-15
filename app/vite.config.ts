@@ -1,8 +1,7 @@
 import { defineConfig, loadEnv, UserConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path';
-//@ts-ignore
-import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const isBuild = command === "build";
@@ -11,7 +10,7 @@ export default defineConfig(({ command, mode }) => {
   const config: UserConfig = {
     define: {
       'process.env': process.env,
-      __VERSION__: JSON.stringify(pkg.version),
+      __VERSION__: JSON.stringify(process.env.npm_package_version),
     },
     base: './',
     plugins: [react()],
