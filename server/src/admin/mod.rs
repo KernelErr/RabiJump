@@ -19,11 +19,13 @@ pub fn route() -> CorsEndpoint<Route> {
         Cors::new()
             .allow_method(Method::GET)
             .allow_method(Method::POST)
+            .allow_method(Method::DELETE)
             .allow_origin(allow_origin)
     } else {
         Cors::new()
             .allow_method(Method::GET)
             .allow_method(Method::POST)
+            .allow_method(Method::DELETE)
     };
     Route::new()
         .at(
@@ -45,8 +47,16 @@ pub fn route() -> CorsEndpoint<Route> {
             "/api/redirect;search",
             get(search_redirects).with(auth::TokenMiddleware),
         )
+        .at("/api/auth", get(auth_check).with(auth::TokenMiddleware))
         .nest("/", StaticFilesEndpoint::new("./static"))
         .with(cors)
+}
+
+#[handler]
+fn auth_check() -> Result<Json<serde_json::Value>, AdminError> {
+    return Ok(Json(json!({
+        "msg": "ok",
+    })));
 }
 
 #[handler]
