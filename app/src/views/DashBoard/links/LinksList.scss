@@ -1,0 +1,27 @@
+div.listcard-description.semi-collapse-item{
+    div.listcard-dot{
+        margin: 3px;
+        margin-right: 12px;
+        padding: 7px;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+
+        background-color: #000;
+    }
+    div.listcard-header-content{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+div.listcard-card{
+    div.semi-card-meta-wrapper-title{
+        display: flex;
+        align-items: center;
+
+    }
+}
+div.semi-card.linklist-body{
+    overflow: unset;
+}

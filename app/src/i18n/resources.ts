@@ -1,0 +1,44 @@
+import en from "./en.json"
+import zh from "./zh.json"
+
+export const resources = {
+    "zh": {
+        translation: zh
+    },
+    "en": {
+        translation: en
+    }
+}
+
+export const trans_key = {
+    "Overview": "Overview",
+    "Links": "Links",
+    "Links.name": "Links.name",
+    "Links.description": "Links.description",
+    "Links.target": "Links.target",
+    "Links.mobile_target": "Links.mobile_target",
+    "Links.parameters": "Links.parameters",
+    "Links.active": "Links.active",
+    "Links.modified": "Links.modified",
+    "Links.status_code": "Links.status_code",
+    "Config": "Config",
+
+    "About": "About",
+
+    "false": "false",
+    "true": "true",
+    "cancle": "cancle",
+    "update": "update",
+    "create": "create",
+    "add": "add",
+    "search": "search",
+    "search.ByPrefix": "search.ByPrefix",
+    "collapse": "collapse",
+    "Language": "Language",
+    "Theme": "Theme"
+}
+
+export const languageOptions: Array<[string, string]> = [
+    ['zh', '中文'],
+    ['en', 'English']
+]

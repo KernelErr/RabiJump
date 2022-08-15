@@ -1,0 +1,30 @@
+.root,
+.section{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(345px, 1fr));
+    max-width: 900px;
+    gap: 24px;
+}
+
+.root,
+.section{
+    padding: 6px 15px 10px;
+}
+
+.wrapSwitch {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sep {
+    max-width: 900px;
+    padding: 0 15px;
+    > div {
+      border-top: 1px dashed #373737;
+    }
+  }
+  
+  .label {
+    padding: 11px 0;
+  }

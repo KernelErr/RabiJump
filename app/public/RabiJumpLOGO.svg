@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 43.98">
+  <g id="skin">
+    <polygon points="36.01 20 36.01 0 28.01 0 28.01 20 12.01 20 12.01 0 4 0 4 20 0 20 0 43.98 40 43.98 40 20 36.01 20" style="fill: #d2d2d2"/>
+  </g>
+  <g id="eye_bottom">
+    <rect x="9.01" y="20.01" width="8.01" height="12.97"/>
+    <rect x="23" y="20.01" width="7.98" height="12.97"/>
+  </g>
+  <g id="eye_top">
+    <rect x="9.01" y="20.01" width="8.01" height="5.99" style="fill: #595b57"/>
+    <rect x="23" y="20.01" width="7.98" height="5.99" style="fill: #595b57"/>
+  </g>
+  <g id="others">
+    <g>
+      <rect x="17.02" y="31.99" width="5.98" height="5.98" style="fill: #d2b5b4"/>
+      <rect x="8.01" y="7.98" width="4" height="12.01" style="fill: #d2b5b4"/>
+      <rect x="8.01" y="3.98" width="4" height="4" style="fill: #c1a6a1"/>
+      <rect x="4" y="3.98" width="4" height="4" style="fill: #282624"/>
+      <polygon points="4 3.98 8.01 3.98 12.01 3.98 12.01 0 4 0 4 3.98"/>
+      <rect x="28.01" y="4" width="4" height="4" style="fill: #debcba"/>
+      <rect x="28.01" y="8" width="4" height="4" style="fill: #e7c5c3"/>
+      <rect x="28.01" y="12.01" width="4" height="4" style="fill: #debcba"/>
+      <rect x="28.01" y="16.01" width="4" height="4" style="fill: #e7c5c3"/>
+    </g>
+  </g>
+</svg>

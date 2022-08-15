@@ -1,0 +1,32 @@
+.apiconfig-layout.semi-layout{
+    header.apiconfig-flex{
+        padding-top: 48px;
+    }
+    .apiconfig-flex{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .apiconfig-inputgroup{
+
+        button{
+            margin-left: 24px;
+        }
+    }
+    
+}
+
+#root > {
+    .apiconfig-layout.semi-layout{
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+}
+
+.apiconfig-button-flex{
+    padding:5px 0 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
