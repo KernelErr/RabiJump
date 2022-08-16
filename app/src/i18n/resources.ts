@@ -34,6 +34,8 @@ export const trans_key = {
     "search": "search",
     "search.ByPrefix": "search.ByPrefix",
     "collapse": "collapse",
+    "switch_backend": "switch_backend",
+
     "Language": "Language",
     "Theme": "Theme"
 }

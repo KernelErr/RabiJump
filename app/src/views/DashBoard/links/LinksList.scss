@@ -19,9 +19,14 @@ div.listcard-card{
     div.semi-card-meta-wrapper-title{
         display: flex;
         align-items: center;
-
     }
 }
 div.semi-card.linklist-body{
     overflow: unset;
+    div.semi-card-header-wrapper{
+        justify-content: flex-end;
+    }
+    div.semi-card-header-wrapper-title{
+        max-width: 600px;
+    }
 }

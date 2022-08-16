@@ -20,8 +20,9 @@
     "add": "Add",
     "search": "Search",
     "search.ByPrefix": "Search by prefix",
+    "switch_backend": "Switch backend",
     "collapse": "Collapse",
-    "time": "{{val}}",
+    "time": "{{val,MM/DD/YYYY HH:mm:ss Z}}",
     "Language": "Language",
     "Theme": "Theme"
 }

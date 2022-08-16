@@ -122,10 +122,13 @@ const LinkCard = React.memo(function LinkCard({
                                             <Descriptions.Item itemKey={t(`Links.target`) as string}>{linkData.target}</Descriptions.Item>
                                             <Descriptions.Item itemKey={t(`Links.mobile_target`) as string}>{linkData.mobile_target}</Descriptions.Item>
                                             <Descriptions.Item itemKey={t(`Links.description`) as string}>{linkData.desc}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.modified`) as string}>{t('time', { val: new Date(linkData.last_modified).toLocaleString() }) as string}</Descriptions.Item>
+                                            <Descriptions.Item itemKey={t(`Links.modified`) as string}>{t('time',
+                                                {
+                                                    val: new Date(linkData.last_modified),
+                                                }) as string}</Descriptions.Item>
                                             <Descriptions.Item itemKey={t(`Links.parameters`) as string}>{t(linkData.allow_parameters.toString()) as string}</Descriptions.Item>
                                             <Descriptions.Item itemKey={t(`Links.active`) as string}>{t(linkData.active.toString()) as string}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.status_code`) as string}>{linkData.status_code}</Descriptions.Item>
+                                            <Descriptions.Item itemKey={t(`Links.status_code`) as string}>{linkData.status_code == null ? 302 : linkData.status_code}</Descriptions.Item>
                                             <Descriptions.Item itemKey={t(`Links.count`) as string}>
                                                 <div className="linkcard-description-item-count">
                                                     <span>{count}</span>

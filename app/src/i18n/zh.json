@@ -21,7 +21,8 @@
     "search": "搜索",
     "search.ByPrefix": "前缀搜索",
     "collapse": "收起",
-    "time": "{{val}}",
+    "switch_backend": "切换服务",
+    "time": "{{val,YYYY/MM/DD HH:mm:ss Z}}",
     "Language": "语言",
     "Theme": "主题"
 }
