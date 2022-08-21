@@ -17,25 +17,21 @@ const statusCode = [
 interface LinkFormProps extends BaseFormProps {
     linkData: LinkProps
     index?: number
-    onUpdate?: (idx: number, data: LinkProps) => void
-    onCreate?: (data: LinkProps) => void
+    onSubmitHandler: (data: LinkProps, idx: number) => void
     update?: boolean
 }
 
 const LinkForm = React.memo(function LinkForm({
     linkData,
     index,
-    onUpdate,
-    onCreate,
+    onSubmitHandler,
     update,
 }: LinkFormProps) {
     const { Input, Checkbox, Select, TextArea } = Form
     return (
-        <Form allowEmpty onSubmit={(v) => update
-            //@ts-ignore
-            ? onUpdate(index as number, v as BasicLinkProps)
-            //@ts-ignore
-            : onCreate(v as BasicLinkProps)}
+        <Form allowEmpty onSubmit={(v) =>
+            onSubmitHandler(v as LinkProps, index as number)
+        }
             labelPosition="left" labelAlign="left" labelWidth={"90px"}>
             <Input disabled={update} field="name" initValue={linkData.name}
                 rules={[{ required: true, message: "Required" }]}

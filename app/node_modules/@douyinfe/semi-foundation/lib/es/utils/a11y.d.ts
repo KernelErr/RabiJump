@@ -1,0 +1,10 @@
+export declare function handlePrevent(event: any): void;
+export declare function isPrintableCharacter(string: string): RegExpMatchArray;
+export declare function setFocusToItem(itemNodes: HTMLElement[], targetItem: HTMLElement): void;
+export declare function setFocusToFirstItem(itemNodes: HTMLElement[]): void;
+export declare function setFocusToLastItem(itemNodes: HTMLElement[]): void;
+export declare function setFocusToPreviousMenuItem(itemNodes: HTMLElement[], currentItem: HTMLElement): void;
+export declare function setFocusToNextMenuitem(itemNodes: HTMLElement[], currentItem: HTMLElement): void;
+export declare function findIndexByCharacter(itemList: HTMLElement[], curItem: HTMLElement, firstCharList: string[], char: string): number;
+export declare function getAncestorNodeByRole(curElement: Element, role: string): Element;
+export declare function getMenuButton(focusableEle: NodeListOf<HTMLElement>, Id: string): HTMLElement;

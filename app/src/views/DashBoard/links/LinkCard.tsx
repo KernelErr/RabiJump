@@ -11,6 +11,7 @@ import "./LinkCard.scss"
 import { getRedirectVisitCount } from '@app/api/redirect';
 import { getCurrentApiConfig, UseGlobalStore } from '@app/store/app';
 import { delay } from '@app/misc/util';
+import LinkFormButton from '@app/views/Share/Buttons/LinkFormButton';
 
 const LinkCard = React.memo(function LinkCard({
     linkData,
@@ -22,8 +23,8 @@ const LinkCard = React.memo(function LinkCard({
     linkData: LinkProps
     index: number
     onRemove: (idx: number) => void
-    onUpdate?: (idx: number, data: LinkProps) => void
-    onActive: (idx: number, data: boolean) => void
+    onUpdate: (data: LinkProps, idx: number) => void
+    onActive: (data: boolean, idx: number) => void
 }) {
     const [visible, setVisible] = useState(false);
     const [count, setCount] = useState<number>();
@@ -50,101 +51,84 @@ const LinkCard = React.memo(function LinkCard({
             id={`listcard-wrapper-${index}`}
             style={{ position: 'relative' }}
         >
-            <Popover trigger="custom"
-                content={
-                    <LinkForm
-                        linkData={linkData}
-                        index={index}
-                        onUpdate={onUpdate}
-                        update
-                    />
-                }
-                position="bottom"
-                getPopupContainer={
-                    () => document.querySelector(`#listcard-wrapper-${index}`) as HTMLElement}
-                stopPropagation
-                visible={visible}
-                onVisibleChange={setVisible}
-                onClickOutSide={() => setVisible(false)}
+            <Card
+                shadows="hover"
+                className="listcard-card"
+
             >
-                <Card
-                    shadows="hover"
-                    className="listcard-card"
-
-                >
-                    <Meta
-                        title={
-                            <>
-                                <Switch checked={linkData.active} onChange={(v, e) => {
-                                    onActive(index, v)
-                                }}></Switch>
-                                <Collapse onChange={
-                                    (v) => {
-                                        v?.length
-                                            ? delayedUpdateCountInfo()
-                                            : null
+                <Meta
+                    title={
+                        <>
+                            <Switch checked={linkData.active} onChange={(v, e) => {
+                                onActive(v, index)
+                            }}></Switch>
+                            <Collapse onChange={
+                                (v) => {
+                                    v?.length
+                                        ? delayedUpdateCountInfo()
+                                        : null
+                                }
+                            }>
+                                <Collapse.Panel
+                                    className="listcard-description"
+                                    style={{ width: '300px' }}
+                                    header={
+                                        <>
+                                            <div className="listcard-header-content">
+                                                <StatusDot active={linkData.active} />
+                                                {linkData.name}
+                                            </div>
+                                            <ButtonGroup>
+                                                <LinkFormButton
+                                                    icon={<IconEdit />}
+                                                    theme="borderless"
+                                                    update
+                                                    linkProps={linkData}
+                                                    index={index}
+                                                    onSubmitHandler={onUpdate}
+                                                />
+                                                <Button
+                                                    icon={<IconClose />}
+                                                    type="danger"
+                                                    theme="borderless"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        onRemove(index)
+                                                    }}></Button>
+                                            </ButtonGroup>
+                                        </>
                                     }
-                                }>
-                                    <Collapse.Panel
-                                        className="listcard-description"
-                                        style={{ width: '300px' }}
-                                        header={
-                                            <>
-                                                <div className="listcard-header-content">
-                                                    <StatusDot active={linkData.active} />
-                                                    {linkData.name}
-                                                </div>
-                                                <ButtonGroup>
-                                                    <Button
-                                                        icon={<IconEdit />}
-                                                        theme="borderless"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setVisible(!visible)
-                                                        }}></Button>
+                                    itemKey={`${index}`}
+                                    showArrow={false}
+                                >
+                                    <Descriptions>
+                                        <Descriptions.Item itemKey={t(`Links.name`) as string}>{linkData.name}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.target`) as string}>{linkData.target}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.mobile_target`) as string}>{linkData.mobile_target}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.description`) as string}>{linkData.desc}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.modified`) as string}>{t('time',
+                                            {
+                                                val: new Date(linkData.last_modified),
+                                            }) as string}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.parameters`) as string}>{t(linkData.allow_parameters.toString()) as string}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.active`) as string}>{t(linkData.active.toString()) as string}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.status_code`) as string}>{linkData.status_code == null ? 302 : linkData.status_code}</Descriptions.Item>
+                                        <Descriptions.Item itemKey={t(`Links.count`) as string}>
+                                            <div className="linkcard-description-item-count">
+                                                <span>{count}</span>
+                                                <Button loading={loading} theme='borderless' onClick={() => updateCountInfo(true)} icon={<IconRefresh />} />
+                                            </div>
+                                        </Descriptions.Item>
 
-                                                    <Button
-                                                        icon={<IconClose />}
-                                                        type="danger"
-                                                        theme="borderless"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            onRemove(index)
-                                                        }}></Button>
-                                                </ButtonGroup>
-                                            </>
-                                        }
-                                        itemKey={`${index}`}
-                                        showArrow={false}
-                                    >
-                                        <Descriptions>
-                                            <Descriptions.Item itemKey={t(`Links.name`) as string}>{linkData.name}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.target`) as string}>{linkData.target}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.mobile_target`) as string}>{linkData.mobile_target}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.description`) as string}>{linkData.desc}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.modified`) as string}>{t('time',
-                                                {
-                                                    val: new Date(linkData.last_modified),
-                                                }) as string}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.parameters`) as string}>{t(linkData.allow_parameters.toString()) as string}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.active`) as string}>{t(linkData.active.toString()) as string}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.status_code`) as string}>{linkData.status_code == null ? 302 : linkData.status_code}</Descriptions.Item>
-                                            <Descriptions.Item itemKey={t(`Links.count`) as string}>
-                                                <div className="linkcard-description-item-count">
-                                                    <span>{count}</span>
-                                                    <Button loading={loading} theme='borderless' onClick={() => updateCountInfo(true)} icon={<IconRefresh />} />
-                                                </div>
-                                            </Descriptions.Item>
+                                    </Descriptions>
+                                </Collapse.Panel>
+                            </Collapse>
+                        </>
 
-                                        </Descriptions>
-                                    </Collapse.Panel>
-                                </Collapse>
-                            </>
+                    }
+                />
+            </Card>
 
-                        }
-                    />
-                </Card>
-            </Popover>
         </div>
     )
 })

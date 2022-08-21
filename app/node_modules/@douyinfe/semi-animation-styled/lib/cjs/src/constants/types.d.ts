@@ -1,0 +1,14 @@
+export declare const attentionSeekers: string[];
+export declare const bouncingEntrances: string[];
+export declare const bouncingExits: string[];
+export declare const fadingEntrances: string[];
+export declare const fadingExits: string[];
+export declare const flippers: string[];
+export declare const lightspeed: string[];
+export declare const rotatingEntrances: string[];
+export declare const rotatingExits: string[];
+export declare const slidingEntrances: string[];
+export declare const slidingExits: string[];
+export declare const specials: string[];
+export declare const zoomingEntrances: string[];
+export declare const zoomingExits: string[];

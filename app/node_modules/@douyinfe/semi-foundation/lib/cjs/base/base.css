@@ -1,0 +1,24 @@
+/* shadow */
+/* sizing */
+/* spacing */
+.semi-light-scrollbar::-webkit-scrollbar, .semi-light-scrollbar *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.semi-light-scrollbar::-webkit-scrollbar-track, .semi-light-scrollbar *::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+.semi-light-scrollbar::-webkit-scrollbar-corner, .semi-light-scrollbar *::-webkit-scrollbar-corner {
+  background-color: rgba(0, 0, 0, 0);
+}
+.semi-light-scrollbar::-webkit-scrollbar-thumb, .semi-light-scrollbar *::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: transparent;
+  transition: all 1s;
+}
+.semi-light-scrollbar:hover::-webkit-scrollbar-thumb, .semi-light-scrollbar *:hover::-webkit-scrollbar-thumb {
+  background: var(--semi-color-fill-2);
+}
+.semi-light-scrollbar::-webkit-scrollbar-thumb:hover, .semi-light-scrollbar *::-webkit-scrollbar-thumb:hover {
+  background: var(--semi-color-fill-1);
+}

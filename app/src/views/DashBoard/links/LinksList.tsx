@@ -36,7 +36,7 @@ function LinksList() {
         fetchRedirectList(getCurrentApiConfig(app))
             .then(setLinkList)
     }, [])
-    const onActive = (index: number, active: boolean) => {
+    const onActive = (active: boolean, index: number) => {
         let linkItem = linkList[index]
         setLinkActive(active, linkItem, getCurrentApiConfig(app))
             .then((value) => {
@@ -44,7 +44,7 @@ function LinksList() {
                 setLinkList([...linkList])
             })
     }
-    const onUpdate = (index: number, data: LinkProps) => {
+    const onUpdate = (data: LinkProps, index: number) => {
         updateRedirect(data, getCurrentApiConfig(app))
             .then((value) => {
                 linkList[index] = value.data

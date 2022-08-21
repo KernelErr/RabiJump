@@ -1,0 +1,70 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import noop from './utils/noop';
+export interface AnimationProps {
+    onStart?: Function;
+    onFrame?: Function;
+    onPause?: Function;
+    onResume?: Function;
+    onStop?: Function;
+    onRest?: Function;
+    children?: React.ReactNode | ((AnimationChildProps?: any) => React.ReactNode);
+    from?: Record<string, any>;
+    to?: Record<string, any>;
+    reverse?: boolean;
+    reset?: boolean;
+    force?: boolean;
+    config?: Record<string, any>;
+    autoStart?: boolean;
+    forwardInstance?: (value: any) => void;
+    immediate?: boolean;
+}
+export default class Animation extends PureComponent<AnimationProps> {
+    static propTypes: {
+        onStart: PropTypes.Requireable<(...args: any[]) => any>;
+        onFrame: PropTypes.Requireable<(...args: any[]) => any>;
+        onPause: PropTypes.Requireable<(...args: any[]) => any>;
+        onResume: PropTypes.Requireable<(...args: any[]) => any>;
+        onStop: PropTypes.Requireable<(...args: any[]) => any>;
+        onRest: PropTypes.Requireable<(...args: any[]) => any>;
+        children: PropTypes.Requireable<any>;
+        from: PropTypes.Requireable<object>;
+        to: PropTypes.Requireable<object>;
+        reverse: PropTypes.Requireable<boolean>;
+        reset: PropTypes.Requireable<boolean>;
+        force: PropTypes.Requireable<boolean>;
+        config: PropTypes.Requireable<object>;
+        autoStart: PropTypes.Requireable<boolean>;
+        forwardInstance: PropTypes.Requireable<(...args: any[]) => any>;
+        immediate: PropTypes.Requireable<boolean>;
+    };
+    static defaultProps: {
+        autoStart: boolean;
+        force: boolean;
+        onStart: typeof noop;
+        onFrame: typeof noop;
+        onPause: typeof noop;
+        onResume: typeof noop;
+        onStop: typeof noop;
+        onRest: typeof noop;
+    };
+    _mounted: boolean;
+    _destroyed: boolean;
+    animation: any;
+    reverse: () => void;
+    destroy: () => void;
+    reset: () => void;
+    resume: () => void;
+    end: () => void;
+    stop: () => void;
+    pause: () => void;
+    start: () => void;
+    constructor(props?: {});
+    startOrNot(): void;
+    componentDidMount(): void;
+    componentWillUnmount(): void;
+    componentDidUpdate(prevProps?: AnimationProps): void;
+    initAnimation: (props?: AnimationProps) => void;
+    bindEvents: () => void;
+    render(): React.ReactNode;
+}

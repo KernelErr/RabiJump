@@ -1,7 +1,7 @@
 {
   "name": "app",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,11 +21,12 @@
     "react-i18next": "^11.18.3",
     "react-router-dom": "^6.3.0",
     "reset-css": "^5.0.1",
+    "sass": "^1.54.5",
     "scss": "^0.2.4",
     "zustand": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.7.1",
+    "@types/node": "^18.7.8",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",

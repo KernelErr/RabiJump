@@ -1,5 +1,5 @@
-div.listcard-description.semi-collapse-item{
-    div.listcard-dot{
+div.listcard-description.semi-collapse-item {
+    div.listcard-dot {
         margin: 3px;
         margin-right: 12px;
         padding: 7px;
@@ -9,24 +9,32 @@ div.listcard-description.semi-collapse-item{
 
         background-color: #000;
     }
-    div.listcard-header-content{
+
+    div.listcard-header-content {
         display: flex;
         flex-direction: row;
         align-items: center;
     }
 }
-div.listcard-card{
-    div.semi-card-meta-wrapper-title{
+
+div.listcard-card {
+    div.semi-card-meta-wrapper-title {
         display: flex;
-        align-items: center;
+
+        div.semi-switch {
+            margin-top: 16.5px;
+        }
     }
 }
-div.semi-card.linklist-body{
+
+div.semi-card.linklist-body {
     overflow: unset;
-    div.semi-card-header-wrapper{
+
+    div.semi-card-header-wrapper {
         justify-content: flex-end;
     }
-    div.semi-card-header-wrapper-title{
+
+    div.semi-card-header-wrapper-title {
         max-width: 600px;
     }
 }

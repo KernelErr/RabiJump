@@ -1,0 +1,20 @@
+/* shadow */
+/* sizing */
+/* spacing */
+.semi-backtop {
+  position: fixed;
+  box-sizing: border-box;
+  right: 100px;
+  bottom: 50px;
+  z-index: 10;
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+}
+
+.semi-rtl .semi-backtop,
+.semi-portal-rtl .semi-backtop {
+  direction: rtl;
+  right: auto;
+  left: 100px;
+}

@@ -9,17 +9,20 @@ import BackendList from "./BackendList";
 import { UseGlobalStore } from "@app/store/app";
 import { backendAuth } from "@app/api/connect";
 
+const defaultURL = 'http://127.0.0.1:8081'
+
 const APIConfig: FC = () => {
     const { Header, Content } = Layout
     const [baseURL, setBaseURL] = useState('');
     const [token, setToken] = useState('');
     const verifyHandler = async (value: any) => {
         let errors = {} as any
+        let _baseURL: string = baseURL ? baseURL : defaultURL;
         try {
-            new URL(baseURL);
+            new URL(_baseURL);
         } catch (e) {
-            if (baseURL) {
-                const prefix = baseURL.substring(0, 7);
+            if (_baseURL) {
+                const prefix = _baseURL.substring(0, 7);
                 if (prefix !== 'http://' && prefix !== 'https:/') {
                     errors.baseURL = 'Must starts with http:// or https://'
                 }
@@ -29,7 +32,7 @@ const APIConfig: FC = () => {
             return errors
         }
         try {
-            const res = await backendAuth({ baseURL, token })
+            const res = await backendAuth({ baseURL: _baseURL, token })
         } catch (e) {
             errors.baseURL = 'Failed to connect'
             return errors
@@ -37,7 +40,7 @@ const APIConfig: FC = () => {
         return ""
     }
     const submitHandler = () => {
-        UseGlobalStore.getState().addApiConfig({ baseURL, token })
+        UseGlobalStore.getState().addApiConfig({ baseURL: `${baseURL ? baseURL : defaultURL}`, token })
     }
     return (
         <>

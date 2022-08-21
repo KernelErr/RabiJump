@@ -1,0 +1,23 @@
+/* shadow */
+/* sizing */
+/* spacing */
+.semi-overflow-list {
+  display: flex;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+.semi-overflow-list-spacer {
+  flex-shrink: 1;
+  width: 1px;
+}
+.semi-overflow-list-scroll-wrapper {
+  display: flex;
+  flex: 1;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.semi-rtl .semi-overflow-list,
+.semi-portal-rtl .semi-overflow-list {
+  direction: rtl;
+}
