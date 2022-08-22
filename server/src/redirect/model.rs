@@ -41,7 +41,7 @@ impl Redirect {
 
     pub fn get_by_name(name: &str) -> Result<Option<Redirect>> {
         let db = CONFIG.get_db("redirects");
-        let key = name.to_string();
+        let key = name.to_string().to_lowercase();
         let record = db.get(key.as_bytes());
         match record {
             Ok(Some(value)) => {
@@ -58,7 +58,7 @@ impl Redirect {
 
     pub fn get_visit_by_name(name: &str) -> Result<i64> {
         let db = CONFIG.get_db("analysis");
-        let key = name.to_string();
+        let key = name.to_string().to_lowercase();
         let record = db.get(key.as_bytes());
         match record {
             Ok(Some(value)) => {
@@ -75,7 +75,7 @@ impl Redirect {
 
     pub fn save(&self) -> Result<()> {
         let db = CONFIG.get_db("redirects");
-        let key = self.name.to_string();
+        let key = self.name.to_string().to_lowercase();
         let value = bincode::serialize(self).unwrap();
         match db.insert(key.as_bytes(), value) {
             Ok(_) => Ok(()),
@@ -113,7 +113,7 @@ impl Redirect {
     pub fn delete(name: &str) -> Result<()> {
         let redirect_db = CONFIG.get_db("redirects");
         let analysis_db = CONFIG.get_db("analysis");
-        let key = name.to_string();
+        let key = name.to_string().to_lowercase();
         redirect_db.remove(key.as_bytes())?;
         analysis_db.remove(key.as_bytes())?;
         Ok(())

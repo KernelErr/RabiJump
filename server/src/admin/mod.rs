@@ -66,7 +66,6 @@ fn create_redirect(
 ) -> Result<Json<serde_json::Value>, AdminError> {
     let mut redirect = redirect;
     redirect.last_modified = Some(chrono::Utc::now());
-    redirect.name = name.to_lowercase();
     if name != redirect.name {
         return Err(AdminError::BadRequest(format!(
             "Name in path ({}) does not match name in body ({})",
