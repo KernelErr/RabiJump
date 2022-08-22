@@ -56,7 +56,17 @@ pub fn redirect(
     ip: RealIp,
 ) -> Result<Response, RedirectError> {
     let redirect = match Redirect::get_by_name(&name) {
-        Ok(Some(r)) => r,
+        Ok(Some(r)) => {
+            if r.active {
+                r
+            } else {
+                if let Some(fallback) = CONFIG.get_fallback_target() {
+                    return Ok(poemRedirect::temporary(fallback).into_response());
+                } else {
+                    return Err(RedirectError::NotFound);
+                }
+            }
+        },
         Ok(None) => {
             if let Some(fallback) = CONFIG.get_fallback_target() {
                 return Ok(poemRedirect::temporary(fallback).into_response());

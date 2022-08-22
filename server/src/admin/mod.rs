@@ -48,7 +48,7 @@ pub fn route() -> CorsEndpoint<Route> {
             get(search_redirects).with(auth::TokenMiddleware),
         )
         .at("/api/auth", get(auth_check).with(auth::TokenMiddleware))
-        .nest("/", StaticFilesEndpoint::new("./static"))
+        .nest("/", StaticFilesEndpoint::new("./static").index_file("index.html"))
         .with(cors)
 }
 

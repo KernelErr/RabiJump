@@ -88,7 +88,7 @@ impl Redirect {
 
     pub fn visit(&self) -> Result<()> {
         let db = CONFIG.get_db("analysis");
-        let key = self.name.to_string();
+        let key = self.name.to_string().to_lowercase();
         let result: Result<(), TransactionError<sled::transaction::UnabortableTransactionError>> =
             db.transaction(|db| {
                 let value = db.get(key.as_bytes())?;
@@ -140,9 +140,9 @@ impl Redirect {
 
     pub fn search_by_prefix(prefix: &str) -> Result<Vec<Redirect>> {
         let db = CONFIG.get_db("redirects");
-        let prefix = prefix.as_bytes();
+        let prefix = prefix.to_lowercase();
         let mut records = Vec::new();
-        let mut iter = db.scan_prefix(prefix);
+        let mut iter = db.scan_prefix(prefix.as_bytes());
         while let Some(Ok((_, v))) = iter.next() {
             let record: Redirect = bincode::deserialize(&v)?;
             records.push(record);
