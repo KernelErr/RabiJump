@@ -59,12 +59,10 @@ pub fn redirect(
         Ok(Some(r)) => {
             if r.active {
                 r
+            } else if let Some(fallback) = CONFIG.get_fallback_target() {
+                return Ok(poemRedirect::temporary(fallback).into_response());
             } else {
-                if let Some(fallback) = CONFIG.get_fallback_target() {
-                    return Ok(poemRedirect::temporary(fallback).into_response());
-                } else {
-                    return Err(RedirectError::NotFound);
-                }
+                return Err(RedirectError::NotFound);
             }
         },
         Ok(None) => {

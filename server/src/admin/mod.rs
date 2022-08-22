@@ -54,9 +54,9 @@ pub fn route() -> CorsEndpoint<Route> {
 
 #[handler]
 fn auth_check() -> Result<Json<serde_json::Value>, AdminError> {
-    return Ok(Json(json!({
+    Ok(Json(json!({
         "msg": "ok",
-    })));
+    })))
 }
 
 #[handler]
