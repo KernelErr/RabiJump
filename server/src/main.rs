@@ -6,17 +6,12 @@ use crate::admin::route as admin_route;
 use futures::join;
 use once_cell::sync::Lazy;
 use poem::{
-    error::NotFoundError, get, handler, http::StatusCode, listener::TcpListener, web::Path,
+    error::NotFoundError, get, http::StatusCode, listener::TcpListener,
     EndpointExt, Response, Route, Server,
 };
 use spdlog::prelude::*;
 
 static CONFIG: Lazy<config::Config> = Lazy::new(config::Config::env);
-
-#[handler]
-fn hello(Path(name): Path<String>) -> String {
-    format!("hello: {}", name)
-}
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {

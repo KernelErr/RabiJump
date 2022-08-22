@@ -48,8 +48,14 @@ pub fn route() -> CorsEndpoint<Route> {
             get(search_redirects).with(auth::TokenMiddleware),
         )
         .at("/api/auth", get(auth_check).with(auth::TokenMiddleware))
+        .at("/api/version", get(get_version).with(auth::TokenMiddleware))
         .nest("/", StaticFilesEndpoint::new("./static").index_file("index.html"))
         .with(cors)
+}
+
+#[handler]
+fn get_version() -> String {
+    format!("{}", env!("CARGO_PKG_VERSION"))
 }
 
 #[handler]
