@@ -1,6 +1,6 @@
 # 🐰RabiJump
 
-[简体中文](README_cn.md)
+[简体中文](https://github.com/KernelErr/RabiJump/blob/main/README_CN.md) | [API Doc](https://github.com/KernelErr/RabiJump/blob/main/docs/API.md)
 
 RabiJump is an open source redirection service aimed for efficiency and simplicity.
 

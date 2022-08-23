@@ -1,6 +1,6 @@
 # 🐰RabiJump
 
-[简体中文](README_cn.md)
+[English](https://github.com/KernelErr/RabiJump/blob/main/README.md)
 
 RabiJump是一个简单高效的开源跳转（短链接）工具。
 
