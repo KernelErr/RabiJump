@@ -1,5 +1,8 @@
+import { backendVersion } from "@app/api/connect";
+import { getCurrentApiConfig, useGlobalStore } from "@app/store/app";
 import ContentHeader from "@app/views/Share/ContentHeader";
 import { IconGithubLogo } from "@douyinfe/semi-icons";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import s0 from "./AboutPage.module.scss"
 
@@ -12,6 +15,7 @@ function Version({
     link: string,
     version: string
 }) {
+
     return (
         <div className={s0.root}>
             <h2>{name}</h2>
@@ -33,12 +37,21 @@ function Version({
 
 function AboutPage() {
     const [t] = useTranslation();
+    const [app] = useGlobalStore(state => [state.app])
+    const [version, setVersion] = useState('');
+    const fetchVersion = useCallback(async () => {
+        const { data } = await backendVersion(getCurrentApiConfig(app))
+        setVersion(data);
+    }, [])
+    useEffect(() => {
+        fetchVersion();
+    }, [])
     return (
         <>
             <ContentHeader title={t('About')} />
             <Version
                 name="RabiJump"
-                version=""
+                version={version}
                 link="https://github.com/KernelErr/RabiJump"
             />
             <Version

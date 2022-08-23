@@ -1,5 +1,5 @@
 import { useToggle } from "@app/hooks/basic";
-import { UseGlobalStore } from "@app/store/app";
+import { useGlobalStore } from "@app/store/app";
 import { ApiConfig } from "@app/type/app";
 import { IconClose, IconEyeClosedSolid, IconEyeOpened } from "@douyinfe/semi-icons";
 import { Button, Card } from "@douyinfe/semi-ui";
@@ -8,7 +8,7 @@ import "./BackendList.scss"
 
 function BackendList() {
 
-    const [app, removeApiConfig, selectApiConfig] = UseGlobalStore(state =>
+    const [app, removeApiConfig, selectApiConfig] = useGlobalStore(state =>
         [state.app, state.removeApiConfig, state.selectApiConfig])
     return (
         <>

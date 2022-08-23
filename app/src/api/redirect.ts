@@ -1,7 +1,7 @@
 import request from "@app/misc/request/axios"
 import { ExtendedRequest } from "@app/misc/request/axiosMiddleware";
 import { ApiConfig } from "@app/type/app";
-import { BasicLinkProps, LinkProps } from "@app/type/link";
+import { LinkProps } from "@app/type/link";
 import { AxiosPromise } from "axios";
 
 const endpoint = '/api/redirect'
@@ -10,8 +10,8 @@ export function getRedirect(name: string, apiConfig: ApiConfig): AxiosPromise<Li
     return request.get(`${endpoint}/${name}`, { ...apiConfig } as ExtendedRequest)
 }
 
-export function getRedirectLists(apiConfig: ApiConfig): AxiosPromise<Array<LinkProps>> {
-    return request.get(`${endpoint};list`, { ...apiConfig } as ExtendedRequest)
+export function getRedirectLists(apiConfig: ApiConfig, padding?: any, count?: number, skip?: number): AxiosPromise<{ total: number, data: Array<LinkProps> }> {
+    return request.get(`${endpoint};list`, { ...apiConfig, params: { count: count, skip: skip } } as ExtendedRequest)
 }
 
 export function createRedirect(linkProps: LinkProps, apiConfig: ApiConfig): AxiosPromise<LinkProps> {
@@ -26,8 +26,9 @@ export function deleteRedirect(name: string, apiConfig: ApiConfig): AxiosPromise
     return request.delete(`${endpoint}/${name}`, { ...apiConfig } as ExtendedRequest)
 }
 
-export function searchRedirectsByPrefix(prefix: string, apiConfig: ApiConfig): AxiosPromise<Array<LinkProps>> {
-    return request.get(`${endpoint};search?prefix=${prefix}`, { ...apiConfig } as ExtendedRequest)
+export function searchRedirectsByPrefix(apiConfig: ApiConfig, prefix: string, count?: number, skip?: number): AxiosPromise<{ total: number, data: Array<LinkProps> }> {
+
+    return request.get(`${endpoint};search?prefix=${prefix}`, { ...apiConfig, params: { count: count, skip: skip } } as ExtendedRequest)
 }
 
 export function getRedirectVisitCount(name: string, apiConfig: ApiConfig): AxiosPromise<{ count: number }> {

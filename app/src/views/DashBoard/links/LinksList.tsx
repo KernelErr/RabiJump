@@ -1,5 +1,5 @@
 import { CardGroup, Button, Card, Input, Notification } from "@douyinfe/semi-ui"
-import { getCurrentApiConfig, UseGlobalStore } from "@app/store/app"
+import { getCurrentApiConfig, useGlobalStore } from "@app/store/app"
 import { useState, useEffect } from "react"
 import * as React from 'react';
 import { ApiConfig } from "@app/type/app"
@@ -14,11 +14,6 @@ import { useTranslation } from "react-i18next";
 import { IconSearch, IconFilter } from "@douyinfe/semi-icons";
 import { debounce } from "@app/misc/util";
 
-async function fetchRedirectList(apiConfig: ApiConfig) {
-    const { data } = await getRedirectLists(apiConfig)
-    return await data
-}
-
 async function setLinkActive(active: boolean, linkProps: LinkProps, apiConfig: ApiConfig) {
     let l: LinkProps = {
         ...linkProps,
@@ -30,11 +25,12 @@ async function setLinkActive(active: boolean, linkProps: LinkProps, apiConfig: A
 
 function LinksList() {
     const [t] = useTranslation();
-    const [app] = UseGlobalStore((state) => [state.app])
-    const [linkList, setLinkList] = useLinkListStore(state => [state.linkList, state.setLinkList])
+    const [app] = useGlobalStore((state) => [state.app])
+    const [linkList, total, setLinkList, setTotal, paginationConfig, setPaginationConfig, prefix, setPrefix] =
+        useLinkListStore(state => [state.linkList, state.total, state.setLinkList, state.setTotal, state.paginationConfig, state.setPaginationConfig, state.prefix, state.setPrefix])
     useEffect(() => {
-        fetchRedirectList(getCurrentApiConfig(app))
-            .then(setLinkList)
+        getRedirectLists(getCurrentApiConfig(app), '', paginationConfig.count, paginationConfig.skip)
+            .then((res) => { setTotal(res.data.total); setLinkList(res.data.data) })
     }, [])
     const onActive = (active: boolean, index: number) => {
         let linkItem = linkList[index]
@@ -61,25 +57,23 @@ function LinksList() {
             .then((value) => {
                 linkList.splice(index, 1)
                 setLinkList([...linkList])
+                setTotal(total - 1);
             })
     }
 
-    const [prefix, setPrefix] = useState('');
     const onSearch = React.useCallback((prefix: string) => {
-        searchRedirectsByPrefix(prefix, getCurrentApiConfig(app))
+        searchRedirectsByPrefix(getCurrentApiConfig(app), prefix, paginationConfig.count)
             .then(res => {
-                setLinkList(res.data)
+                setTotal(res.data.total)
+                setPaginationConfig(paginationConfig.count)
+                setLinkList(res.data.data)
             })
-    }, [])
+    }, [paginationConfig.count, paginationConfig.skip])
     const onSearchDebouce = React.useMemo(() => {
-
         return debounce(onSearch, 500)
     }, [onSearch])
     return (
         <Card className="linklist-body"
-            // headerExtraContent={
-            //     <Button icon={<IconFilter />}></Button>
-            // }
             title={
                 <Input
                     prefix={<IconSearch />}

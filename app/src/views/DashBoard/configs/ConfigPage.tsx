@@ -7,12 +7,12 @@ import { IconExit, IconMoon, IconSun } from "@douyinfe/semi-icons";
 
 import s0 from "./ConfigPage.module.scss"
 import ContentHeader from "@app/views/Share/ContentHeader";
-import { getTheme, UseGlobalStore } from "@app/store/app";
+import { getTheme, useGlobalStore } from "@app/store/app";
 import SwitchThemeButton from "@app/views/Share/Buttons/SwitchThemeButton";
 
 function ConfigPage() {
     const { t, i18n } = useTranslation();
-    const [app, switchTheme] = UseGlobalStore(state => [state.app, state.switchTheme])
+    const [app, switchTheme] = useGlobalStore(state => [state.app, state.switchTheme])
     return (
         <>
             <ContentHeader title={t(trans_key.Config)} />

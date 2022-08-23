@@ -1,0 +1,1 @@
+import{R as e,a as o,j as n,Q as r}from"./index.fb700652.js";const c="_root_11tzb_1",h="_h1_11tzb_7",t={root:c,h1:h};function m({title:a,extraContent:s}){return o("div",{className:t.root,children:n("h1",{className:t.h1,children:[a,s?o("span",{children:s}):o(r,{})]})})}const i=e.memo(m);export{i as C};

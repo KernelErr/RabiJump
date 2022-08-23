@@ -19,6 +19,9 @@ export default defineConfig(({ command, mode }) => {
         "@app": resolve(__dirname, './src'),
         "@i18n": resolve(__dirname, './src/i18n')
       }
+    },
+    build: {
+      outDir: '../server/static'
     }
   }
   return config;

@@ -5,7 +5,7 @@ import { loadState, saveState } from '@app/misc/storage'
 
 
 const defaultApiConfig: ApiConfig = {
-    baseURL: 'http://127.0.0.1:8081',
+    baseURL: location.origin,
     token: '',
 }
 
@@ -30,7 +30,7 @@ export const getTheme = (app: GlobalState) => app.theme
 export const getCurrentApiConfig = (app: GlobalState) => app.apiConfigs[app.selectedApiConfigIndex];
 
 
-export const UseGlobalStore = create<State>((set, get) => {
+export const useGlobalStore = create<State>((set, get) => {
     return {
         app: initialState(),
 
@@ -77,7 +77,7 @@ export const UseGlobalStore = create<State>((set, get) => {
     }
 })
 
-const { getState, setState, subscribe, destroy } = UseGlobalStore;
+const { getState, setState, subscribe, destroy } = useGlobalStore;
 export { getState, setState, subscribe, destroy };
 
 function findApiConfigIndex(app: GlobalState, { baseURL, token }: ApiConfig): number | undefined {

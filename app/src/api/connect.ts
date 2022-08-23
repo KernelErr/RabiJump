@@ -8,3 +8,7 @@ const endpoint = '/api'
 export function backendAuth(apiConfig: ApiConfig): AxiosPromise<{ status: string }> {
     return request.get(`${endpoint}/auth`, { ...apiConfig } as ExtendedRequest);
 }
+
+export function backendVersion(apiConfig: ApiConfig): AxiosPromise<string> {
+    return request.get(`${endpoint}/version`, { ...apiConfig } as ExtendedRequest);
+}

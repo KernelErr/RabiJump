@@ -6,10 +6,10 @@ import { Button, Col, Form, InputGroup, Layout, Row } from "@douyinfe/semi-ui"
 import SvgLogo from "./SvgLogo";
 import { Input } from "@douyinfe/semi-ui/lib/es/input";
 import BackendList from "./BackendList";
-import { UseGlobalStore } from "@app/store/app";
+import { useGlobalStore } from "@app/store/app";
 import { backendAuth } from "@app/api/connect";
 
-const defaultURL = 'http://127.0.0.1:8081'
+const defaultURL = location.origin
 
 const APIConfig: FC = () => {
     const { Header, Content } = Layout
@@ -40,7 +40,7 @@ const APIConfig: FC = () => {
         return ""
     }
     const submitHandler = () => {
-        UseGlobalStore.getState().addApiConfig({ baseURL: `${baseURL ? baseURL : defaultURL}`, token })
+        useGlobalStore.getState().addApiConfig({ baseURL: `${baseURL ? baseURL : defaultURL}`, token })
     }
     return (
         <>
@@ -56,7 +56,7 @@ const APIConfig: FC = () => {
                                 <Form.Input
                                     onChange={setBaseURL}
                                     field="baseURL" label="API Base URL" style={{ width: 320 }}
-                                    placeholder={"http://127.0.0.1:8081"}
+                                    placeholder={defaultURL}
                                 ></Form.Input>
                             </Col>
                             <Col span={8}>

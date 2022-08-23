@@ -1,5 +1,5 @@
 import { createRedirect } from "@app/api/redirect";
-import { getCurrentApiConfig, UseGlobalStore } from "@app/store/app";
+import { getCurrentApiConfig, useGlobalStore } from "@app/store/app";
 import { useLinkListStore } from "@app/store/links";
 import { LinkProps } from "@app/type/link";
 import LinkForm from "@app/views/DashBoard/links/LinkForm";

@@ -11,8 +11,8 @@ const root = createRoot(
 )
 
 root.render(
-  // <React.StrictMode>
-  <Root />
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Root />
+  </React.StrictMode>
 )
 

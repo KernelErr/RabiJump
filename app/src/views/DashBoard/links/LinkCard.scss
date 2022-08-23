@@ -1,10 +1,20 @@
-div.semi-card-group{
-    div.semi-popover-wrapper{
-        padding: 24px 24px;
-    }
+span.semi-descriptions-key {
+    white-space: normal;
 }
-div.linkcard-description-item-count{
+
+div.linkcard-description-item-count {
     display: flex;
     justify-content: space-between;
-    align-items:flex-start
+    align-items: center
+}
+
+div.listcard-description {
+    .semi-descriptions-item {
+        vertical-align: middle;
+    }
+
+}
+
+div.semi-collapsible-wrapper {
+    cursor: auto;
 }

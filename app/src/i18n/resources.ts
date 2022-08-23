@@ -44,3 +44,15 @@ export const languageOptions: Array<[string, string]> = [
     ['zh', '中文'],
     ['en', 'English']
 ]
+
+import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
+import en_US from '@douyinfe/semi-ui/lib/es/locale/source/en_US';
+
+type PairType = {
+    [key: string]: any
+}
+
+export const semiLocalesOptions: PairType = {
+    zh: zh_CN,
+    en: en_US
+}

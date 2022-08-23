@@ -1,30 +1,32 @@
 @import "/node_modules/reset-css/sass/reset";
 @import "/node_modules/@douyinfe/semi-ui/dist/css/semi.min.css";
-
+@import url("./scrollbar.scss");
 
 html,
 body,
 #root,
-#root > * {
+#root>* {
 	height: 100%;
 	margin: 0;
+
 	.flex-between {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 	}
-	a:-webkit-any-link{
+
+	a:-webkit-any-link {
 		color: unset;
 		text-decoration: none;
 	}
 }
 
-body{
+body {
 	color: var(--semi-color-text-0);
-    background-color: var( --semi-color-bg-0);
+	background-color: var(--semi-color-bg-0);
 	font-family: var(--font-normal);
 }
 
-:root{
-	--font-normal:-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, 'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+:root {
+	--font-normal: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, 'PingFang SC', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 }
