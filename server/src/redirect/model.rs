@@ -138,16 +138,30 @@ impl Redirect {
         Ok(records)
     }
 
-    pub fn search_by_prefix(prefix: &str) -> Result<Vec<Redirect>> {
+    pub fn search_by_prefix(prefix: &str, count: i32, skip: i32) -> Result<(usize, Vec<Redirect>)> {
         let db = CONFIG.get_db("redirects");
         let prefix = prefix.to_lowercase();
-        let mut records = Vec::new();
+        let mut records: Vec<Redirect> = Vec::new();
         let mut iter = db.scan_prefix(prefix.as_bytes());
+        let mut skip_count = 0;
+        let mut size = 0;
         while let Some(Ok((_, v))) = iter.next() {
-            let record: Redirect = bincode::deserialize(&v)?;
-            records.push(record);
+            size += 1;
+            if skip_count < skip {
+                skip_count += 1;
+                continue;
+            }
+            if records.len() < count as usize {
+                let record: Redirect = bincode::deserialize(&v)?;
+                records.push(record);
+            }
         }
-        Ok(records)
+        Ok((size, records))
+    }
+
+    pub fn count() -> usize {
+        let db = CONFIG.get_db("redirects");
+        db.len()
     }
 }
 

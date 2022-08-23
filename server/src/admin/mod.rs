@@ -55,7 +55,7 @@ pub fn route() -> CorsEndpoint<Route> {
 
 #[handler]
 fn get_version() -> String {
-    format!("{}", env!("CARGO_PKG_VERSION"))
+    env!("CARGO_PKG_VERSION").to_string()
 }
 
 #[handler]
@@ -122,7 +122,13 @@ fn list_redirects(
     let count = count.unwrap_or(10);
     let skip = skip.unwrap_or(0);
     match Redirect::list(count, skip) {
-        Ok(redirects) => Ok(Json(json!(redirects))),
+        Ok(redirects) => {
+            let total = Redirect::count();
+            Ok(Json(json!({
+                "total": total,
+                "data": redirects,
+            })))
+        },
         Err(e) => Err(AdminError::InternalServerError(format!("{}", e))),
     }
 }
@@ -130,14 +136,21 @@ fn list_redirects(
 #[derive(Deserialize)]
 struct SearchQuery {
     prefix: String,
+    count: Option<i32>,
+    skip: Option<i32>,
 }
 
 #[handler]
 fn search_redirects(
-    Query(SearchQuery { prefix }): Query<SearchQuery>,
+    Query(SearchQuery { prefix, count, skip }): Query<SearchQuery>,
 ) -> Result<Json<serde_json::Value>, AdminError> {
-    match Redirect::search_by_prefix(&prefix) {
-        Ok(redirects) => Ok(Json(json!(redirects))),
+    let count = count.unwrap_or(10);
+    let skip = skip.unwrap_or(0);
+    match Redirect::search_by_prefix(&prefix, count, skip) {
+        Ok((size, redirects)) =>  Ok(Json(json!({
+            "total": size,
+            "data": redirects,
+        }))),
         Err(e) => Err(AdminError::InternalServerError(format!("{}", e))),
     }
 }

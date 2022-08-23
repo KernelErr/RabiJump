@@ -97,7 +97,7 @@ pub fn redirect(
                     write_log(ip, true, &target, uri, header);
                     return Ok(Response::builder()
                         .status(
-                            StatusCode::from_u16(redirect.status_code.unwrap_or(301))
+                            StatusCode::from_u16(redirect.status_code.unwrap_or(302))
                                 .unwrap_or(StatusCode::MOVED_PERMANENTLY),
                         )
                         .header("Location", target)
@@ -116,7 +116,7 @@ pub fn redirect(
     write_log(ip, false, &target, uri, header);
     Ok(Response::builder()
         .status(
-            StatusCode::from_u16(redirect.status_code.unwrap_or(301))
+            StatusCode::from_u16(redirect.status_code.unwrap_or(302))
                 .unwrap_or(StatusCode::MOVED_PERMANENTLY),
         )
         .header("Location", target)
