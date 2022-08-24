@@ -2,8 +2,14 @@
 name = "rabijump"
 version = "0.1.0"
 edition = "2021"
-authors = ["LI Rui<me@lirui.tech>"]
-licence = "Apache-2.0"
+authors = ["LI Rui<me@lirui.tech>", "ChocoLZS<chocoielzs@gmail.com>"]
+license = "Apache-2.0"
+description = "A simple and fast redirection tool (short link) written in Rust."
+readme = "../README.md"
+homepage = "https://github.com/KernelErr/RabiJump"
+repository = "https://github.com/KernelErr/RabiJump"
+keywords = ["redirection", "short-link"]
+categories = ["web-programming"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
